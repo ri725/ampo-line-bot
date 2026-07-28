@@ -132,3 +132,14 @@ RESULT_IMAGE_WATER_TOXICITY_URL=https://example.com/result_water_toxicity.png
 
 このリポジトリには `railway.json`（起動コマンド/ヘルスチェック設定）が含まれているため、
 そのままデプロイ可能です。
+
+### 403が続く場合（一時回避）
+
+`LINE_CHANNEL_SECRET` の不一致時はWebhook検証で403になります。  
+切り分けのため一時的に以下を設定すると、署名検証をスキップできます。
+
+```bash
+SKIP_LINE_SIGNATURE_VALIDATION=true
+```
+
+接続確認後は必ず `false` に戻してください（推奨）。

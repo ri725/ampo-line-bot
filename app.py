@@ -15,6 +15,9 @@ LINE_CHANNEL_SECRET = os.getenv("LINE_CHANNEL_SECRET", "")
 PORT = int(os.getenv("PORT", "8000"))
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").rstrip("/")
 WEBHOOK_PATH = "/callback"
+SKIP_LINE_SIGNATURE_VALIDATION = (
+    os.getenv("SKIP_LINE_SIGNATURE_VALIDATION", "false").strip().lower() == "true"
+)
 
 
 QUESTIONS: List[Dict] = [
@@ -145,6 +148,8 @@ user_states: Dict[str, Dict] = {}
 
 
 def verify_signature(body: bytes, signature: str) -> bool:
+    if SKIP_LINE_SIGNATURE_VALIDATION:
+        return True
     if not LINE_CHANNEL_SECRET:
         return False
     digest = hmac.new(
