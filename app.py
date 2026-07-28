@@ -495,8 +495,9 @@ class LineWebhookHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     if not LINE_CHANNEL_ACCESS_TOKEN or not LINE_CHANNEL_SECRET:
-        raise RuntimeError(
-            "環境変数 LINE_CHANNEL_ACCESS_TOKEN / LINE_CHANNEL_SECRET を設定してください。"
+        print(
+            "Warning: LINE_CHANNEL_ACCESS_TOKEN / LINE_CHANNEL_SECRET が未設定です。"
+            " healthcheckは通りますが、LINE Webhookは正常動作しません。"
         )
 
     server = HTTPServer(("0.0.0.0", PORT), LineWebhookHandler)
