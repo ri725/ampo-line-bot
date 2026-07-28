@@ -15,6 +15,7 @@ LINE_CHANNEL_SECRET = os.getenv("LINE_CHANNEL_SECRET", "")
 PORT = int(os.getenv("PORT", "8000"))
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").rstrip("/")
 WEBHOOK_PATH = "/callback"
+ALLOWED_WEBHOOK_PATHS = {"/", "/callback", "/callback/"}
 
 
 QUESTIONS: List[Dict] = [
@@ -448,7 +449,7 @@ class LineWebhookHandler(BaseHTTPRequestHandler):
         self.wfile.write(file_path.read_bytes())
 
     def do_POST(self):
-        if urlparse(self.path).path != WEBHOOK_PATH:
+        if urlparse(self.path).path not in ALLOWED_WEBHOOK_PATHS:
             self.send_response(404)
             self.end_headers()
             self.wfile.write(b"Not Found")
