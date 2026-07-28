@@ -1,0 +1,77 @@
+{
+  "size": {
+    "width": 2500,
+    "height": 1686
+  },
+  "selected": true,
+  "name": "漢方体質診断メニュー",
+  "chatBarText": "体質診断を開く",
+  "areas": [
+    {
+      "bounds": {
+        "x": 55,
+        "y": 56,
+        "width": 1577,
+        "height": 768
+      },
+      "action": {
+        "type": "postback",
+        "label": "診断開始",
+        "data": "action=start_diagnosis",
+        "displayText": "体質診断を始める"
+      }
+    },
+    {
+      "bounds": {
+        "x": 1682,
+        "y": 56,
+        "width": 763,
+        "height": 768
+      },
+      "action": {
+        "type": "message",
+        "label": "相談",
+        "text": "相談したい"
+      }
+    },
+    {
+      "bounds": {
+        "x": 55,
+        "y": 877,
+        "width": 759,
+        "height": 754
+      },
+      "action": {
+        "type": "message",
+        "label": "セルフケア",
+        "text": "セルフケア"
+      }
+    },
+    {
+      "bounds": {
+        "x": 865,
+        "y": 877,
+        "width": 767,
+        "height": 754
+      },
+      "action": {
+        "type": "message",
+        "label": "レシピ",
+        "text": "レシピ"
+      }
+    },
+    {
+      "bounds": {
+        "x": 1682,
+        "y": 877,
+        "width": 763,
+        "height": 754
+      },
+      "action": {
+        "type": "message",
+        "label": "ヘルプ",
+        "text": "ヘルプ"
+      }
+    }
+  ]
+}

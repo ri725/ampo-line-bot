@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>漢方診断 結果画像プレビュー</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 24px;
+        font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+        background: #f7f7f7;
+        color: #333;
+      }
+      h1 {
+        margin: 0 0 20px;
+        font-size: 24px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+      .card img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>漢方診断 結果画像プレビュー</h1>
+    <div class="grid">
+      <div class="card">
+        <h2>気虚</h2>
+        <img src="./result_qi_deficiency.png" alt="気虚タイプ画像" />
+      </div>
+      <div class="card">
+        <h2>気滞</h2>
+        <img src="./result_qi_stagnation.png" alt="気滞タイプ画像" />
+      </div>
+      <div class="card">
+        <h2>血虚</h2>
+        <img src="./result_blood_deficiency.png" alt="血虚タイプ画像" />
+      </div>
+      <div class="card">
+        <h2>瘀血</h2>
+        <img src="./result_blood_stasis.png" alt="瘀血タイプ画像" />
+      </div>
+      <div class="card">
+        <h2>陰虚</h2>
+        <img src="./result_yin_deficiency.png" alt="陰虚タイプ画像" />
+      </div>
+      <div class="card">
+        <h2>水毒</h2>
+        <img src="./result_water_toxicity.png" alt="水毒タイプ画像" />
+      </div>
+    </div>
+  </body>
+  </html>

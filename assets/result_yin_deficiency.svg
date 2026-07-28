@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <rect width="1080" height="1080" fill="#eaf2f6"/>
+  <rect x="70" y="80" width="940" height="920" rx="50" fill="#ffffff"/>
+  <text x="540" y="175" text-anchor="middle" font-size="52" font-family="sans-serif" fill="#4a4a4a">&#x8A3A;&#x65AD;&#x7D50;&#x679C;</text>
+  <text x="540" y="250" text-anchor="middle" font-size="84" font-family="sans-serif" font-weight="700" fill="#6f8ea1">&#x9670;&#x865A;&#x30BF;&#x30A4;&#x30D7;</text>
+  <g transform="translate(540,420)">
+    <circle cx="0" cy="0" r="140" fill="#d8e8f1"/>
+    <circle cx="0" cy="-15" r="58" fill="#b7d2e1"/>
+    <rect x="-64" y="45" width="128" height="90" rx="36" fill="#b7d2e1"/>
+    <path d="M-20,-78 A55,55 0 1,0 20,-78 A34,34 0 1,1 -20,-78" fill="#fff"/>
+    <circle cx="-28" cy="8" r="9" fill="#fff"/>
+    <circle cx="28" cy="8" r="9" fill="#fff"/>
+    <path d="M-30,48 Q0,68 30,48" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round"/>
+  </g>
+  <text x="170" y="640" font-size="38" font-family="sans-serif" fill="#4d4d4d">- &#x4E7E;&#x71E5;&#x3057;&#x3084;&#x3059;&#x3044;</text>
+  <text x="170" y="700" font-size="38" font-family="sans-serif" fill="#4d4d4d">- &#x307B;&#x3066;&#x308A;&#x3092;&#x611F;&#x3058;&#x308B;</text>
+  <text x="170" y="760" font-size="38" font-family="sans-serif" fill="#4d4d4d">- &#x5BDD;&#x6C57;&#x3092;&#x304B;&#x304D;&#x3084;&#x3059;&#x3044;</text>
+  <text x="540" y="900" text-anchor="middle" font-size="34" font-family="sans-serif" fill="#777777">&#x591C;&#x66F4;&#x304B;&#x3057;&#x3092;&#x907F;&#x3051;&#x3001;&#x523A;&#x6FC0;&#x7269;&#x3092;&#x63A7;&#x3048;&#x308B;</text>
+</svg>

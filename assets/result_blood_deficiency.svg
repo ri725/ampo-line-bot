@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <rect width="1080" height="1080" fill="#f8edf2"/>
+  <rect x="70" y="80" width="940" height="920" rx="50" fill="#ffffff"/>
+  <text x="540" y="175" text-anchor="middle" font-size="52" font-family="sans-serif" fill="#4a4a4a">&#x8A3A;&#x65AD;&#x7D50;&#x679C;</text>
+  <text x="540" y="250" text-anchor="middle" font-size="84" font-family="sans-serif" font-weight="700" fill="#b67c95">&#x8840;&#x865A;&#x30BF;&#x30A4;&#x30D7;</text>
+  <g transform="translate(540,420)">
+    <circle cx="0" cy="0" r="140" fill="#f1dce6"/>
+    <circle cx="0" cy="-15" r="58" fill="#ddbdd0"/>
+    <rect x="-64" y="45" width="128" height="90" rx="36" fill="#ddbdd0"/>
+    <path d="M-56,40 C-56,4 -22,-15 0,-15 C22,-15 56,4 56,40" stroke="#fff" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <path d="M-80,-45 C-56,-70 -28,-42 -7,-62 C14,-82 43,-76 67,-52" stroke="#c99db5" stroke-width="10" fill="none" stroke-linecap="round"/>
+  </g>
+  <text x="170" y="640" font-size="38" font-family="sans-serif" fill="#4d4d4d">- &#x7ACB;&#x3061;&#x304F;&#x3089;&#x307F;&#x3057;&#x3084;&#x3059;&#x3044;</text>
+  <text x="170" y="700" font-size="38" font-family="sans-serif" fill="#4d4d4d">- &#x7720;&#x308A;&#x304C;&#x6D45;&#x304F;&#x306A;&#x308A;&#x3084;&#x3059;&#x3044;</text>
+  <text x="170" y="760" font-size="38" font-family="sans-serif" fill="#4d4d4d">- &#x9AEA;&#x3084;&#x722A;&#x304C;&#x4E7E;&#x71E5;&#x3057;&#x3084;&#x3059;&#x3044;</text>
+  <text x="540" y="900" text-anchor="middle" font-size="34" font-family="sans-serif" fill="#777777">&#x7761;&#x7720;&#x3092;&#x6574;&#x3048;&#x3001;&#x6804;&#x990A;&#x3092;&#x3057;&#x3063;&#x304B;&#x308A;&#x53D6;&#x308B;</text>
+</svg>
