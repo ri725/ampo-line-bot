@@ -171,6 +171,7 @@ def reply_message(reply_token: str, messages: List[Dict]) -> bool:
     req.add_header("Authorization", f"Bearer {LINE_CHANNEL_ACCESS_TOKEN}")
     try:
         request.urlopen(req, timeout=10)
+        print("LINE reply API success")
         return True
     except error.HTTPError as e:
         detail = ""
@@ -291,8 +292,9 @@ def start_diagnosis(user_id: str, reply_token: str) -> None:
 
 def handle_text_message(user_id: str, reply_token: str, text: str) -> None:
     text = text.strip()
+    print(f"Incoming text message: {text}")
 
-    if text in ("体質診断", "診断開始", "スタート"):
+    if text in ("体質診断", "診断開始", "スタート", "体質診断を始める"):
         start_diagnosis(user_id, reply_token)
         return
     if text == "相談したい":
