@@ -7,7 +7,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from typing import Dict, List
 from urllib.parse import unquote, urlparse
-from urllib import request
+from urllib import error, request
 
 
 LINE_CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", "")
@@ -159,13 +159,30 @@ def verify_signature(body: bytes, signature: str) -> bool:
     return hmac.compare_digest(expected, signature)
 
 
-def reply_message(reply_token: str, messages: List[Dict]) -> None:
+def reply_message(reply_token: str, messages: List[Dict]) -> bool:
+    if not LINE_CHANNEL_ACCESS_TOKEN:
+        print("LINE_CHANNEL_ACCESS_TOKEN is empty. Skip reply.")
+        return False
+
     url = "https://api.line.me/v2/bot/message/reply"
     payload = json.dumps({"replyToken": reply_token, "messages": messages}).encode("utf-8")
     req = request.Request(url, data=payload, method="POST")
     req.add_header("Content-Type", "application/json")
     req.add_header("Authorization", f"Bearer {LINE_CHANNEL_ACCESS_TOKEN}")
-    request.urlopen(req, timeout=10)
+    try:
+        request.urlopen(req, timeout=10)
+        return True
+    except error.HTTPError as e:
+        detail = ""
+        try:
+            detail = e.read().decode("utf-8")
+        except Exception:
+            detail = "<failed to read error body>"
+        print(f"LINE reply API HTTPError: status={e.code}, body={detail}")
+        return False
+    except Exception as e:
+        print(f"LINE reply API error: {e}")
+        return False
 
 
 def score_answer(state: Dict, question_index: int, answer_label: str) -> None:
@@ -482,7 +499,8 @@ class LineWebhookHandler(BaseHTTPRequestHandler):
                 elif event_type == "postback":
                     postback = event.get("postback", {})
                     handle_postback(user_id, reply_token, postback.get("data", ""))
-            except Exception:
+            except Exception as e:
+                print(f"Webhook event handling error: {e}")
                 reply_message(
                     reply_token,
                     [
