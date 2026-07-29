@@ -143,3 +143,15 @@ SKIP_LINE_SIGNATURE_VALIDATION=true
 ```
 
 接続確認後は必ず `false` に戻してください（推奨）。
+
+### 返信が来ないとき（Webhook 200なのに無応答）
+
+Railway Logs で次の行を確認してください。
+
+- `LINE reply API HTTPError: status=401` / `403`  
+  → `LINE_CHANNEL_ACCESS_TOKEN` が別チャネルの可能性大
+- `Signature mismatch.`  
+  → `LINE_CHANNEL_SECRET` が不一致
+
+この場合は、同じMessaging APIチャネルから `Channel secret` と
+`Channel access token` を取り直して、Variablesを上書きしてください。

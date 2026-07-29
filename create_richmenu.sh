@@ -12,7 +12,7 @@ if [[ ! -f "richmenu.json" ]]; then
 fi
 
 if [[ ! -f "richmenu.png" ]]; then
-  echo "richmenu.png が見つかりません。2500x843 のPNGを配置してください。"
+  echo "richmenu.png が見つかりません。2500x1686 のPNGを配置してください。"
   exit 1
 fi
 

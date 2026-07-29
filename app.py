@@ -149,14 +149,19 @@ user_states: Dict[str, Dict] = {}
 
 def verify_signature(body: bytes, signature: str) -> bool:
     if SKIP_LINE_SIGNATURE_VALIDATION:
+        print("Signature validation skipped by env setting.")
         return True
     if not LINE_CHANNEL_SECRET:
+        print("LINE_CHANNEL_SECRET is empty. Signature check failed.")
         return False
     digest = hmac.new(
         LINE_CHANNEL_SECRET.encode("utf-8"), body, hashlib.sha256
     ).digest()
     expected = base64.b64encode(digest).decode("utf-8")
-    return hmac.compare_digest(expected, signature)
+    ok = hmac.compare_digest(expected, signature)
+    if not ok:
+        print("Signature mismatch.")
+    return ok
 
 
 def reply_message(reply_token: str, messages: List[Dict]) -> bool:
@@ -180,6 +185,10 @@ def reply_message(reply_token: str, messages: List[Dict]) -> bool:
         except Exception:
             detail = "<failed to read error body>"
         print(f"LINE reply API HTTPError: status={e.code}, body={detail}")
+        if e.code in (401, 403):
+            print(
+                "Hint: LINE_CHANNEL_ACCESS_TOKEN may be invalid or from another channel."
+            )
         return False
     except Exception as e:
         print(f"LINE reply API error: {e}")
@@ -472,6 +481,7 @@ class LineWebhookHandler(BaseHTTPRequestHandler):
         self.wfile.write(file_path.read_bytes())
 
     def do_POST(self):
+        print(f"Incoming POST path: {self.path}")
         body = self.rfile.read(int(self.headers.get("Content-Length", "0")))
         signature = self.headers.get("X-Line-Signature", "")
 
@@ -481,8 +491,17 @@ class LineWebhookHandler(BaseHTTPRequestHandler):
             self.wfile.write(b"Invalid signature")
             return
 
-        payload = json.loads(body.decode("utf-8"))
+        try:
+            payload = json.loads(body.decode("utf-8"))
+        except Exception as e:
+            print(f"Invalid JSON payload: {e}")
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"OK")
+            return
+
         events = payload.get("events", [])
+        print(f"Webhook events count: {len(events)}")
 
         for event in events:
             reply_token = event.get("replyToken")
