@@ -147,6 +147,15 @@ def get_result_image_url(constitution_type: str) -> str:
 user_states: Dict[str, Dict] = {}
 
 
+def get_conversation_id(source: Dict) -> str:
+    return (
+        source.get("userId")
+        or source.get("groupId")
+        or source.get("roomId")
+        or ""
+    )
+
+
 def verify_signature(body: bytes, signature: str) -> bool:
     if SKIP_LINE_SIGNATURE_VALIDATION:
         print("Signature validation skipped by env setting.")
@@ -299,12 +308,12 @@ def start_diagnosis(user_id: str, reply_token: str) -> None:
     reply_message(reply_token, messages)
 
 
-def handle_text_message(user_id: str, reply_token: str, text: str) -> None:
+def handle_text_message(conversation_id: str, reply_token: str, text: str) -> None:
     text = text.strip()
     print(f"Incoming text message: {text}")
 
     if text in ("体質診断", "診断開始", "スタート", "体質診断を始める"):
-        start_diagnosis(user_id, reply_token)
+        start_diagnosis(conversation_id, reply_token)
         return
     if text == "相談したい":
         reply_message(
@@ -377,7 +386,7 @@ def handle_text_message(user_id: str, reply_token: str, text: str) -> None:
         )
         return
 
-    state = user_states.get(user_id)
+    state = user_states.get(conversation_id)
     if not state:
         reply_message(
             reply_token,
@@ -409,16 +418,16 @@ def handle_text_message(user_id: str, reply_token: str, text: str) -> None:
 
     if idx >= len(QUESTIONS):
         result_messages = build_result_messages(state)
-        user_states.pop(user_id, None)
+        user_states.pop(conversation_id, None)
         reply_message(reply_token, result_messages)
         return
 
     reply_message(reply_token, [build_question_message(idx)])
 
 
-def handle_postback(user_id: str, reply_token: str, data: str) -> None:
+def handle_postback(conversation_id: str, reply_token: str, data: str) -> None:
     if data == "action=start_diagnosis":
-        start_diagnosis(user_id, reply_token)
+        start_diagnosis(conversation_id, reply_token)
         return
 
     reply_message(
@@ -506,20 +515,52 @@ class LineWebhookHandler(BaseHTTPRequestHandler):
         for event in events:
             reply_token = event.get("replyToken")
             source = event.get("source", {})
-            user_id = source.get("userId")
+            conversation_id = get_conversation_id(source)
             event_type = event.get("type")
+            print(
+                f"Event received: type={event_type}, source_type={source.get('type')}, "
+                f"has_reply_token={bool(reply_token)}, conversation_id={conversation_id or 'N/A'}"
+            )
 
-            if not reply_token or not user_id:
+            if not reply_token:
+                print("Skip event because replyToken is missing.")
                 continue
 
             try:
                 if event_type == "message":
                     message = event.get("message", {})
+                    print(f"Message type: {message.get('type')}")
                     if message.get("type") == "text":
-                        handle_text_message(user_id, reply_token, message.get("text", ""))
+                        if not conversation_id:
+                            reply_message(
+                                reply_token,
+                                [
+                                    {
+                                        "type": "text",
+                                        "text": "会話IDが取得できませんでした。1:1トークからお試しください。",
+                                    }
+                                ],
+                            )
+                            continue
+                        handle_text_message(
+                            conversation_id, reply_token, message.get("text", "")
+                        )
                 elif event_type == "postback":
                     postback = event.get("postback", {})
-                    handle_postback(user_id, reply_token, postback.get("data", ""))
+                    if not conversation_id:
+                        reply_message(
+                            reply_token,
+                            [
+                                {
+                                    "type": "text",
+                                    "text": "会話IDが取得できませんでした。1:1トークからお試しください。",
+                                }
+                            ],
+                        )
+                        continue
+                    handle_postback(conversation_id, reply_token, postback.get("data", ""))
+                else:
+                    print(f"Unhandled event type: {event_type}")
             except Exception as e:
                 print(f"Webhook event handling error: {e}")
                 reply_message(
